@@ -3,497 +3,630 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人介绍 - GitHub风格</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #24292f;
-            --border-color: #d0d7de;
-            --accent-color: #0969da;
-            --card-bg: #f6f8fa;
-            --header-bg: #f6f8fa;
-            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        }
+    <title>Juvenile - 个人介绍</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 
-        .dark-mode {
-            --bg-color: #0d1117;
-            --text-color: #c9d1d9;
-            --border-color: #30363d;
-            --accent-color: #58a6ff;
-            --card-bg: #161b22;
-            --header-bg: #161b22;
-            --shadow: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.7);
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff3e78',
+                        secondary: '#6e54f7',
+                        dark: '#0a0a0a',
+                        light: '#f5f5f5',
+                        accent: '#ff9e00'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Poppins', 'sans-serif']
+                    },
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px rgba(255, 62, 120, 0.5)' },
+                            '100%': { boxShadow: '0 0 20px rgba(255, 62, 120, 0.8), 0 0 30px rgba(255, 62, 120, 0.6)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(45deg, #ff3e78, #6e54f7);
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+            }
+            .anime-border {
+                position: relative;
+            }
+            .anime-border::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border: 2px solid transparent;
+                border-radius: inherit;
+                background: linear-gradient(45deg, #ff3e78, #6e54f7) border-box;
+                -webkit-mask:
+                    linear-gradient(#fff 0 0) padding-box,
+                    linear-gradient(#fff 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+            .glass-card {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            }
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.5;
+            background-color: #0a0a0a;
+            background-image:
+                radial-gradient(circle at 25% 25%, rgba(255, 62, 120, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(110, 84, 247, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+        }
+
+        .avatar-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, rgba(255, 62, 120, 0.3), transparent 30%);
+            animation: rotate 4s linear infinite;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(1turn);
+            }
+        }
+
+        .skill-bar {
+            position: relative;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #ff3e78, #6e54f7);
+            transition: width 1.5s ease-in-out;
+        }
+
+        .social-icon {
             transition: all 0.3s ease;
         }
 
-        .container {
-            max-width: 1012px;
-            margin: 0 auto;
-            padding: 0 16px;
-        }
-
-        header {
-            background-color: var(--header-bg);
-            border-bottom: 1px solid var(--border-color);
-            padding: 16px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 600;
-            font-size: 20px;
-        }
-
-        .logo i {
-            color: var(--accent-color);
-        }
-
-        .theme-toggle {
-            background: none;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 8px 12px;
-            color: var(--text-color);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .profile-section {
-            display: flex;
-            gap: 32px;
-            margin: 32px 0;
-            padding: 24px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            box-shadow: var(--shadow);
-        }
-
-        @media (max-width: 768px) {
-            .profile-section {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-        }
-
-        .avatar {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            flex-shrink: 0;
-        }
-
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .profile-info h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .profile-info .title {
-            color: var(--accent-color);
-            margin-bottom: 16px;
-            font-size: 18px;
-        }
-
-        .profile-info p {
-            margin-bottom: 16px;
-            max-width: 600px;
-        }
-
-        .contact-links {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .contact-links a {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .contact-links a:hover {
-            text-decoration: underline;
-        }
-
-        .stats {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background-color: var(--bg-color);
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 32px 0;
-        }
-
-        @media (max-width: 768px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-        }
-
-        .card h2 {
-            font-size: 20px;
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .skill-tag {
-            background-color: var(--accent-color);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 16px;
-            margin-top: 16px;
+        .social-icon:hover {
+            transform: translateY(-5px);
+            color: #ff3e78;
         }
 
         .project-card {
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 16px;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
         }
 
         .project-card:hover {
-            transform: translateY(-4px);
-        }
-
-        .project-card h3 {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .project-card p {
-            font-size: 14px;
-            margin-bottom: 12px;
-            color: var(--text-color);
-            opacity: 0.8;
-        }
-
-        .project-meta {
-            display: flex;
-            gap: 16px;
-            font-size: 12px;
-            color: var(--text-color);
-            opacity: 0.7;
-        }
-
-        .project-meta span {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 24px 0;
-            margin-top: 32px;
-            text-align: center;
-            font-size: 14px;
-            color: var(--text-color);
-            opacity: 0.7;
-        }
-
-        .activity-graph {
-            display: grid;
-            grid-template-columns: repeat(52, 1fr);
-            grid-template-rows: repeat(7, 1fr);
-            gap: 3px;
-            margin-top: 16px;
-        }
-
-        .activity-cell {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            background-color: #ebedf0;
-        }
-
-        .activity-cell.low {
-            background-color: #9be9a8;
-        }
-
-        .activity-cell.medium {
-            background-color: #40c463;
-        }
-
-        .activity-cell.high {
-            background-color: #30a14e;
-        }
-
-        .activity-cell.very-high {
-            background-color: #216e39;
-        }
-
-        .dark-mode .activity-cell {
-            background-color: #161b22;
-        }
-
-        .dark-mode .activity-cell.low {
-            background-color: #0e4429;
-        }
-
-        .dark-mode .activity-cell.medium {
-            background-color: #006d32;
-        }
-
-        .dark-mode .activity-cell.high {
-            background-color: #26a641;
-        }
-
-        .dark-mode .activity-cell.very-high {
-            background-color: #39d353;
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
-<body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fab fa-github"></i>
-                    <span>个人介绍</span>
-                </div>
-                <button class="theme-toggle" id="theme-toggle">
-                    <i class="fas fa-moon"></i>
-                    <span>深色模式</span>
-                </button>
+<body class="text-light">
+    <!-- 背景装饰 -->
+    <div class="fixed inset-0 z-0 overflow-hidden">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full filter blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full filter blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-gradient">Juvenile</a>
+            <div class="hidden md:flex space-x-6">
+                <a href="#about" class="hover:text-primary transition-colors">关于我</a>
+                <a href="#skills" class="hover:text-primary transition-colors">技能</a>
+                <a href="#projects" class="hover:text-primary transition-colors">项目</a>
+                <a href="#contact" class="hover:text-primary transition-colors">联系我</a>
+            </div>
+            <button class="md:hidden text-2xl" id="menu-toggle">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden glass-card mt-1">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <a href="#about" class="hover:text-primary transition-colors">关于我</a>
+                <a href="#skills" class="hover:text-primary transition-colors">技能</a>
+                <a href="#projects" class="hover:text-primary transition-colors">项目</a>
+                <a href="#contact" class="hover:text-primary transition-colors">联系我</a>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <div class="container">
-        <section class="profile-section">
-            <div class="avatar">
-                <img src="壁纸.png" alt="个人头像">
-            </div>
-            <div class="profile-info">
-                <h1>张明</h1>
-                <p class="title">全栈开发工程师 | 开源爱好者</p>
-                <p>你好！我是一名全栈开发工程师，专注于构建高性能、可扩展的Web应用。热爱开源技术，喜欢探索新技术并分享知识。</p>
-                
-                <div class="stats">
-                    <div class="stat">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>北京, 中国</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-building"></i>
-                        <span>ABC科技有限公司</span>
-                    </div>
-                    <div class="stat">
-                        <i class="fas fa-envelope"></i>
-                        <span>zhangming@example.com</span>
-                    </div>
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 pt-24 pb-16 relative z-10">
+        <!-- 英雄区域 -->
+        <section id="about" class="flex flex-col md:flex-row items-center justify-between min-h-[80vh] py-10">
+            <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right" data-aos-duration="1000">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">
+                    <span class="text-gradient">你好，我是</span>
+                    <br>Juvenile
+                </h1>
+                <h2 class="text-xl md:text-2xl font-semibold mb-6 text-gray-300">
+                    安徽大学软件工程专业
+                </h2>
+                <p class="text-gray-400 mb-8 max-w-lg">
+                    我是一名来自安徽省合肥市的软件工程专业学生，热爱编程和动漫。
+                    我专注于前端开发，喜欢创造美观且用户友好的界面。
+                    除了编程，我也热爱动漫文化，这影响了我的设计风格和创造力。
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#contact" class="bg-gradient-to-r from-primary to-secondary px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all transform hover:-translate-y-1">
+                        联系我
+                    </a>
+                    <a href="#projects" class="border border-primary text-primary px-6 py-3 rounded-full font-medium hover:bg-primary hover:text-white transition-all transform hover:-translate-y-1">
+                        查看项目
+                    </a>
                 </div>
-                
-                <div class="contact-links">
-                    <a href="#">
-                        <i class="fab fa-github"></i>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-twitter"></i>
-                        <span>Twitter</span>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-linkedin"></i>
-                        <span>LinkedIn</span>
-                    </a>
-                    <a href="#">
-                        <i class="fas fa-globe"></i>
-                        <span>个人博客</span>
-                    </a>
+            </div>
+            <div class="md:w-2/5 flex justify-center" data-aos="fade-left" data-aos-duration="1000">
+                <div class="avatar-container rounded-full p-1 animate-glow">
+                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/9a94f03bc8d54ab8ab09b6f495c7088c.png~tplv-a9rns2rl98-24:720:720.png?rcl=20251106200346E414F7D439CDA12DAC17&rk3s=8e244e95&rrcfp=8a172a1a&x-expires=1763035427&x-signature=Zo0taLRmcldexk5CH0uSwy4XYYY%3D"
+                         alt="Juvenile"
+                         class="w-64 h-64 object-cover rounded-full border-4 border-dark animate-float">
                 </div>
             </div>
         </section>
 
-        <div class="content-grid">
-            <div class="card">
-                <h2><i class="fas fa-user"></i> 关于我</h2>
-                <p>我是一名拥有5年开发经验的全栈工程师，擅长使用JavaScript生态系统构建现代Web应用。曾在多家科技公司担任技术负责人，主导过多个大型项目的架构设计和开发。</p>
-                <p>在业余时间，我喜欢为开源项目贡献代码，撰写技术博客，并参与本地开发者社区的活动。我相信持续学习和分享是技术成长的关键。</p>
-                
-                <h2 style="margin-top: 24px;"><i class="fas fa-code"></i> 技术栈</h2>
-                <div class="skills-list">
-                    <span class="skill-tag">JavaScript</span>
-                    <span class="skill-tag">TypeScript</span>
-                    <span class="skill-tag">React</span>
-                    <span class="skill-tag">Vue.js</span>
-                    <span class="skill-tag">Node.js</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">Docker</span>
-                    <span class="skill-tag">Kubernetes</span>
-                    <span class="skill-tag">AWS</span>
-                    <span class="skill-tag">MongoDB</span>
-                    <span class="skill-tag">PostgreSQL</span>
-                    <span class="skill-tag">GraphQL</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2><i class="fas fa-chart-bar"></i> 贡献活动</h2>
-                <p>过去一年的代码贡献活动</p>
-                <div class="activity-graph">
-                    <!-- 这里生成贡献图 -->
-                    <!-- 为简化示例，使用随机数据 -->
-                </div>
-                
-                <h2 style="margin-top: 24px;"><i class="fas fa-trophy"></i> 成就</h2>
-                <ul style="padding-left: 20px;">
-                    <li>GitHub - 2022年北极代码库贡献者</li>
-                    <li>Stack Overflow - 顶级回答者 (JavaScript标签)</li>
-                    <li>开源项目 - 获得超过1000星标</li>
-                    <li>技术大会 - 多次作为演讲嘉宾</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2><i class="fas fa-project-diagram"></i> 精选项目</h2>
-            <div class="projects">
-                <div class="project-card">
-                    <h3><i class="fas fa-book"></i> React组件库</h3>
-                    <p>一个高质量、可访问的React UI组件库，包含60+组件，被多个企业项目采用。</p>
-                    <div class="project-meta">
-                        <span><i class="fas fa-star"></i> 1.2k</span>
-                        <span><i class="fas fa-code-branch"></i> 234</span>
-                        <span><i class="fas fa-circle"></i> TypeScript</span>
+        <!-- 个人信息 -->
+        <section class="py-16" data-aos="fade-up">
+            <div class="glass-card rounded-2xl p-8">
+                <h2 class="text-3xl font-bold mb-8 text-center text-gradient">个人信息</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                <i class="fa fa-user text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-gray-400">姓名</h3>
+                                <p class="text-xl">Juvenile</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                <i class="fa fa-graduation-cap text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-gray-400">教育背景</h3>
+                                <p class="text-xl">安徽大学软件工程专业</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="project-card">
-                    <h3><i class="fas fa-server"></i> 微服务框架</h3>
-                    <p>基于Node.js的轻量级微服务框架，提供完整的服务治理和监控能力。</p>
-                    <div class="project-meta">
-                        <span><i class="fas fa-star"></i> 856</span>
-                        <span><i class="fas fa-code-branch"></i> 142</span>
-                        <span><i class="fas fa-circle"></i> JavaScript</span>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <h3><i class="fas fa-mobile-alt"></i> 跨平台应用</h3>
-                    <p>使用React Native构建的跨平台移动应用，在iOS和Android上均有良好表现。</p>
-                    <div class="project-meta">
-                        <span><i class="fas fa-star"></i> 623</span>
-                        <span><i class="fas fa-code-branch"></i> 89</span>
-                        <span><i class="fas fa-circle"></i> React Native</span>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                <i class="fa fa-map-marker text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-gray-400">所在地</h3>
+                                <p class="text-xl">安徽省合肥市</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                <i class="fa fa-envelope text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-gray-400">邮箱</h3>
+                                <p class="text-xl">juvenile@example.com</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    <footer>
-        <div class="container">
-            <p>© 2023 张明 - 本页面使用GitHub风格设计</p>
+        <!-- 技能部分 -->
+        <section id="skills" class="py-16" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-center text-gradient">我的技能</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold mb-6 flex items-center">
+                        <i class="fa fa-code text-primary mr-2"></i>
+                        编程技能
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>HTML/CSS</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 0%;" data-width="90%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>JavaScript</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 0%;" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>React</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 0%;" data-width="75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Python</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 0%;" data-width="70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold mb-6 flex items-center">
+                        <i class="fa fa-paint-brush text-primary mr-2"></i>
+                        设计技能
+                    </h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>UI/UX设计</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 0%;" data-width="80%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>Figma</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 0%;" data-width="75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>动漫风格设计</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 0%;" data-width="85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span>响应式设计</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 0%;" data-width="90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 项目部分 -->
+        <section id="projects" class="py-16" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-center text-gradient">我的项目</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 项目卡片 1 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <div class="h-48 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                        <i class="fa fa-gamepad text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">动漫风格游戏网站</h3>
+                        <p class="text-gray-400 mb-4">
+                            一个以动漫风格设计的游戏资讯和评论网站，使用HTML、CSS和JavaScript开发。
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">HTML5</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded rounded-full text-sm">CSS3</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">JavaScript</span>
+                        </div>
+                        <a href="#" class="text-primary hover:underline flex items-center">
+                            查看项目 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 项目卡片 2 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <div class="h-48 bg-gradient-to-r from-secondary to-primary flex items-center justify-center">
+                        <i class="fa fa-shopping-cart text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">动漫周边电商平台</h3>
+                        <p class="text-gray-400 mb-4">
+                            一个动漫周边电商平台，包含商品展示、购物车和支付流程，使用React开发。
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">React</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">Node.js</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">MongoDB</span>
+                        </div>
+                        <a href="#" class="text-primary hover:underline flex items-center">
+                            查看项目 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 项目卡片 3 -->
+                <div class="project-card glass-card rounded-2xl overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                    <div class="h-48 bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
+                        <i class="fa fa-mobile text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">动漫角色生成器</h3>
+                        <p class="text-gray-400 mb-4">
+                            一个可以自定义动漫角色的Web应用，用户可以调整发型、服装和配饰等。
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">Canvas</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">JavaScript</span>
+                            <span class="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm">CSS</span>
+                        </div>
+                        <a href="#" class="text-primary hover:underline flex items-center">
+                            查看项目 <i class="fa fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 联系部分 -->
+        <section id="contact" class="py-16" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-center text-gradient">联系我</h2>
+            <div class="glass-card rounded-2xl p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-6">发送消息</h3>
+                        <form id="contact-form" class="space-y-4">
+                            <div>
+                                <label for="name" class="block text-gray-400 mb-2">姓名</label>
+                                <input type="text" id="name" class="w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-gray-400 mb-2">邮箱</label>
+                                <input type="email" id="email" class="w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-primary">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-gray-400 mb-2">消息</label>
+                                <textarea id="message" rows="5" class="w-full bg-transparent border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-primary"></textarea>
+                            </div>
+                            <button type="submit" class="bg-gradient-to-r from-primary to-secondary px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-all transform hover:-translate-y-1">
+                                发送消息
+                            </button>
+                        </form>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-6">社交媒体</h3>
+                        <div class="space-y-4">
+                            <a href="#" class="flex items-center social-icon">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                    <i class="fa fa-github text-primary"></i>
+                                </div>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="#" class="flex items-center social-icon">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                    <i class="fa fa-twitter text-primary"></i>
+                                </div>
+                                <span>Twitter</span>
+                            </a>
+                            <a href="#" class="flex items-center social-icon">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                    <i class="fa fa-instagram text-primary"></i>
+                                </div>
+                                <span>Instagram</span>
+                            </a>
+                            <a href="#" class="flex items-center social-icon">
+                                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                    <i class="fa fa-linkedin text-primary"></i>
+                                </div>
+                                <span>LinkedIn</span>
+                            </a>
+                        </div>
+                        <div class="mt-10">
+                            <h3 class="text-xl font-semibold mb-6">联系方式</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                        <i class="fa fa-envelope text-primary"></i>
+                                    </div>
+                                    <span>juvenile@example.com</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                        <i class="fa fa-phone text-primary"></i>
+                                    </div>
+                                    <span>+86 123 4567 8901</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center mr-4">
+                                        <i class="fa fa-map-marker text-primary"></i>
+                                    </div>
+                                    <span>安徽省合肥市</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="glass-card py-8">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400">© 2025 Juvenile. All rights reserved.</p>
+            <div class="flex justify-center-center space-x-4 mt-4">
+                <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                    <i class="fa fa-github text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                    <i class="fa fa-twitter text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                    <i class="fa fa-instagram text-xl"></i>
+                </a>
+                <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                    <i class="fa fa-linkedin text-xl"></i>
+                </a>
+            </div>
         </div>
     </footer>
 
     <script>
-        // 主题切换功能
-        const themeToggle = document.getElementById('theme-toggle');
-        const themeIcon = themeToggle.querySelector('i');
-        const themeText = themeToggle.querySelector('span');
-        
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            
-            if (document.body.classList.contains('dark-mode')) {
-                themeIcon.className = 'fas fa-sun';
-                themeText.textContent = '浅色模式';
-            } else {
-                themeIcon.className = 'fas fa-moon';
-                themeText.textContent = '深色模式';
-            }
-        });
+        // 初始化AOS动画库
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
 
-        // 生成贡献图
-        const activityGraph = document.querySelector('.activity-graph');
-        const levels = ['', 'low', 'medium', 'high', 'very-high'];
-        
-        for (let i = 0; i < 364; i++) {
-            const cell = document.createElement('div');
-            // 随机生成贡献级别，但偏向于较低级别以模拟真实情况
-            const level = Math.random() > 0.7 ? levels[Math.floor(Math.random() * 4) + 1] : '';
-            cell.className = `activity-cell ${level}`;
-            activityGraph.appendChild(cell);
-        }
+            // 移动端菜单切换
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            menuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // 技能条动画
+            const skillBars = document.querySelectorAll('.skill-progress');
+
+            // 检查元素是否在视口中
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+
+            // 显示技能条进度
+            function showSkills() {
+                skillBars.forEach(bar => {
+                    if (isInViewport(bar)) {
+                        const width = bar.getAttribute('data-width');
+                        bar.style.width = width;
+                    }
+                });
+            }
+
+            // 初始检查
+            showSkills();
+
+            // 滚动时检查
+            window.addEventListener('scroll', showSkills);
+
+            // 联系表单提交
+            const contactForm = document.getElementById('contact-form');
+
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const message = document.getElementById('message').value;
+
+                if (name && email && message) {
+                    // 模拟表单提交
+                    alert('消息已发送！');
+                    contactForm.reset();
+                } else {
+                    alert('请填写所有字段');
+                }
+            });
+
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+
+                        // 如果是移动端，点击后关闭菜单
+                        if (window.innerWidth < 768) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
