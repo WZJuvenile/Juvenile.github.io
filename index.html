@@ -3,57 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人介绍</title>
+    <title>个人介绍 - GitHub风格</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #24292f;
+            --border-color: #d0d7de;
+            --accent-color: #0969da;
+            --card-bg: #f6f8fa;
+            --header-bg: #f6f8fa;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        }
+
+        .dark-mode {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --border-color: #30363d;
+            --accent-color: #58a6ff;
+            --card-bg: #161b22;
+            --header-bg: #161b22;
+            --shadow: 0 1px 3px rgba(0,0,0,0.5), 0 1px 2px rgba(0,0,0,0.7);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+            transition: all 0.3s ease;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1012px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 16px;
         }
 
         header {
-            text-align: center;
-            padding: 40px 0;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            position: relative;
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .avatar-container {
-            position: relative;
-            display: inline-block;
-            margin-bottom: 20px;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 20px;
+        }
+
+        .logo i {
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .profile-section {
+            display: flex;
+            gap: 32px;
+            margin: 32px 0;
+            padding: 24px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-shadow: var(--shadow);
+        }
+
+        @media (max-width: 768px) {
+            .profile-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
         }
 
         .avatar {
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
             border-radius: 50%;
-            border: 5px solid rgba(255, 255, 255, 0.3);
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        .avatar:hover {
-            transform: scale(1.05);
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .avatar img {
@@ -62,429 +119,381 @@
             object-fit: cover;
         }
 
-        .upload-btn {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
+        .profile-info h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .profile-info .title {
+            color: var(--accent-color);
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .profile-info p {
+            margin-bottom: 16px;
+            max-width: 600px;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .contact-links a {
             display: flex;
             align-items: center;
-            justify-content: center;
-            transition: background 0.3s ease;
+            gap: 6px;
+            color: var(--accent-color);
+            text-decoration: none;
         }
 
-        .upload-btn:hover {
-            background: rgba(0, 0, 0, 0.9);
+        .contact-links a:hover {
+            text-decoration: underline;
         }
 
-        #file-input {
-            display: none;
+        .stats {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: var(--bg-color);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
         }
 
-        .title {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .content {
+        .content-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 24px;
+            margin: 32px 0;
         }
 
         @media (max-width: 768px) {
-            .content {
+            .content-grid {
                 grid-template-columns: 1fr;
             }
         }
 
         .card {
-            background: white;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 24px;
+            box-shadow: var(--shadow);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #2575fc;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .about p {
-            margin-bottom: 15px;
-        }
-
-        .skills ul {
-            list-style-type: none;
-        }
-
-        .skills li {
-            margin-bottom: 15px;
-        }
-
-        .skill-name {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-
-        .skill-bar {
-            height: 8px;
-            background-color: #e0e0e0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .skill-level {
-            height: 100%;
-            background: linear-gradient(90deg, #6a11cb, #2575fc);
-            border-radius: 4px;
-        }
-
-        .contact ul {
-            list-style-type: none;
-        }
-
-        .contact li {
-            margin-bottom: 15px;
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
+            gap: 8px;
         }
 
-        .contact i {
-            width: 30px;
-            height: 30px;
-            background-color: #2575fc;
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background-color: var(--accent-color);
             color: white;
-            border-radius: 50%;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .project-card {
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 16px;
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .project-card h3 {
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-right: 15px;
+            gap: 8px;
+        }
+
+        .project-card p {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        .project-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
 
         footer {
+            border-top: 1px solid var(--border-color);
+            padding: 24px 0;
+            margin-top: 32px;
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #777;
-            font-size: 0.9rem;
+            font-size: 14px;
+            color: var(--text-color);
+            opacity: 0.7;
         }
 
-        .social-links {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
+        .activity-graph {
+            display: grid;
+            grid-template-columns: repeat(52, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            gap: 3px;
+            margin-top: 16px;
         }
 
-        .social-links a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: #2575fc;
-            color: white;
-            border-radius: 50%;
-            margin: 0 10px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
+        .activity-cell {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: #ebedf0;
         }
 
-        .social-links a:hover {
-            background-color: #6a11cb;
+        .activity-cell.low {
+            background-color: #9be9a8;
         }
 
-        .upload-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+        .activity-cell.medium {
+            background-color: #40c463;
         }
 
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-            text-align: center;
+        .activity-cell.high {
+            background-color: #30a14e;
         }
 
-        .modal-content h3 {
-            margin-bottom: 20px;
-            color: #2575fc;
+        .activity-cell.very-high {
+            background-color: #216e39;
         }
 
-        .modal-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+        .dark-mode .activity-cell {
+            background-color: #161b22;
         }
 
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
+        .dark-mode .activity-cell.low {
+            background-color: #0e4429;
         }
 
-        .btn-primary {
-            background: #2575fc;
-            color: white;
+        .dark-mode .activity-cell.medium {
+            background-color: #006d32;
         }
 
-        .btn-primary:hover {
-            background: #1c65e0;
+        .dark-mode .activity-cell.high {
+            background-color: #26a641;
         }
 
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-        }
-
-        .preview-container {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 20px;
-            border: 2px dashed #ccc;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .preview-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .upload-text {
-            color: #777;
+        .dark-mode .activity-cell.very-high {
+            background-color: #39d353;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="avatar-container">
-                <div class="avatar" id="avatar">
-                    <img src="https://via.placeholder.com/150" alt="个人头像" id="avatar-img">
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fab fa-github"></i>
+                    <span>个人介绍</span>
                 </div>
-                <button class="upload-btn" id="upload-trigger">+</button>
-                <input type="file" id="file-input" accept="image/*">
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                    <span>深色模式</span>
+                </button>
             </div>
-            <h1>Juvenile</h1>
-            <p class="title">前端开发工程师 | UI设计师</p>
-        </header>
+        </div>
+    </header>
 
-        <div class="content">
-            <div class="card about">
-                <h2>关于我</h2>
-                <p>你好！我是一名充满热情的前端开发工程师，拥有5年Web开发经验。我热衷于创造美观、实用且用户友好的界面。</p>
-                <p>我毕业于安徽大学软件工程专业，曾在多家知名互联网公司工作，主导过多个大型项目的开发。</p>
-                <p>除了编程，我还喜欢摄影、旅行和阅读。我相信这些爱好帮助我保持创造力，并将新的灵感融入到我的工作中。</p>
+    <div class="container">
+        <section class="profile-section">
+            <div class="avatar">
+                <img src="壁纸.png" alt="个人头像">
             </div>
-
-            <div class="card skills">
-                <h2>技能专长</h2>
-                <ul>
-                    <li>
-                        <div class="skill-name">
-                            <span>HTML/CSS</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 95%"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="skill-name">
-                            <span>JavaScript</span>
-                            <span>90%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 90%"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="skill-name">
-                            <span>React</span>
-                            <span>85%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 85%"></div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="skill-name">
-                            <span>UI/UX设计</span>
-                            <span>80%</span>
-                        </div>
-                        <div class="skill-bar">
-                            <div class="skill-level" style="width: 80%"></div>
-                        </div>
-                    </li>
-                </ul>
+            <div class="profile-info">
+                <h1>张明</h1>
+                <p class="title">全栈开发工程师 | 开源爱好者</p>
+                <p>你好！我是一名全栈开发工程师，专注于构建高性能、可扩展的Web应用。热爱开源技术，喜欢探索新技术并分享知识。</p>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>北京, 中国</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-building"></i>
+                        <span>ABC科技有限公司</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-envelope"></i>
+                        <span>zhangming@example.com</span>
+                    </div>
+                </div>
+                
+                <div class="contact-links">
+                    <a href="#">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </a>
+                    <a href="#">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#">
+                        <i class="fas fa-globe"></i>
+                        <span>个人博客</span>
+                    </a>
+                </div>
             </div>
+        </section>
 
-            <div class="card contact">
-                <h2>联系方式</h2>
-                <ul>
-                    <li>
-                        <i>📧</i>
-                        <span>zJuvenile@example.com</span>
-                    </li>
-                    <li>
-                        <i>📱</i>
-                        <span>+86 100 0000 0000</span>
-                    </li>
-                    <li>
-                        <i>🏠</i>
-                        <span>安徽省合肥市-安徽大学</span>
-                    </li>
-                </ul>
+        <div class="content-grid">
+            <div class="card">
+                <h2><i class="fas fa-user"></i> 关于我</h2>
+                <p>我是一名拥有5年开发经验的全栈工程师，擅长使用JavaScript生态系统构建现代Web应用。曾在多家科技公司担任技术负责人，主导过多个大型项目的架构设计和开发。</p>
+                <p>在业余时间，我喜欢为开源项目贡献代码，撰写技术博客，并参与本地开发者社区的活动。我相信持续学习和分享是技术成长的关键。</p>
+                
+                <h2 style="margin-top: 24px;"><i class="fas fa-code"></i> 技术栈</h2>
+                <div class="skills-list">
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">Vue.js</span>
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Docker</span>
+                    <span class="skill-tag">Kubernetes</span>
+                    <span class="skill-tag">AWS</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">GraphQL</span>
+                </div>
             </div>
 
             <div class="card">
-                <h2>工作经历</h2>
-                <p><strong>高级前端工程师</strong> - 安徽某科技有限公司 (2019-至今)</p>
-                <p>负责公司核心产品的前端架构设计和开发，带领5人团队完成多个重要项目。</p>
-                <p><strong>前端开发工程师</strong> - 安徽某互联网公司 (2017-2019)</p>
-                <p>参与公司多个Web应用开发，优化用户体验，提升产品性能。</p>
+                <h2><i class="fas fa-chart-bar"></i> 贡献活动</h2>
+                <p>过去一年的代码贡献活动</p>
+                <div class="activity-graph">
+                    <!-- 这里生成贡献图 -->
+                    <!-- 为简化示例，使用随机数据 -->
+                </div>
+                
+                <h2 style="margin-top: 24px;"><i class="fas fa-trophy"></i> 成就</h2>
+                <ul style="padding-left: 20px;">
+                    <li>GitHub - 2022年北极代码库贡献者</li>
+                    <li>Stack Overflow - 顶级回答者 (JavaScript标签)</li>
+                    <li>开源项目 - 获得超过1000星标</li>
+                    <li>技术大会 - 多次作为演讲嘉宾</li>
+                </ul>
             </div>
         </div>
 
-        <footer>
-            <p>© 2025 Juvenile - 个人介绍页面</p>
-            <div class="social-links">
-                <a href="#">微</a>
-                <a href="#">博</a>
-                <a href="#">Git</a>
-                <a href="#">知</a>
-            </div>
-        </footer>
-    </div>
-
-    <!-- 上传模态框 -->
-    <div class="upload-modal" id="upload-modal">
-        <div class="modal-content">
-            <h3>上传新头像</h3>
-            <div class="preview-container" id="preview-container">
-                <p class="upload-text">预览区域</p>
-            </div>
-            <input type="file" id="modal-file-input" accept="image/*">
-            <div class="modal-buttons">
-                <button class="btn btn-primary" id="confirm-upload">确认上传</button>
-                <button class="btn btn-secondary" id="cancel-upload">取消</button>
+        <div class="card">
+            <h2><i class="fas fa-project-diagram"></i> 精选项目</h2>
+            <div class="projects">
+                <div class="project-card">
+                    <h3><i class="fas fa-book"></i> React组件库</h3>
+                    <p>一个高质量、可访问的React UI组件库，包含60+组件，被多个企业项目采用。</p>
+                    <div class="project-meta">
+                        <span><i class="fas fa-star"></i> 1.2k</span>
+                        <span><i class="fas fa-code-branch"></i> 234</span>
+                        <span><i class="fas fa-circle"></i> TypeScript</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3><i class="fas fa-server"></i> 微服务框架</h3>
+                    <p>基于Node.js的轻量级微服务框架，提供完整的服务治理和监控能力。</p>
+                    <div class="project-meta">
+                        <span><i class="fas fa-star"></i> 856</span>
+                        <span><i class="fas fa-code-branch"></i> 142</span>
+                        <span><i class="fas fa-circle"></i> JavaScript</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <h3><i class="fas fa-mobile-alt"></i> 跨平台应用</h3>
+                    <p>使用React Native构建的跨平台移动应用，在iOS和Android上均有良好表现。</p>
+                    <div class="project-meta">
+                        <span><i class="fas fa-star"></i> 623</span>
+                        <span><i class="fas fa-code-branch"></i> 89</span>
+                        <span><i class="fas fa-circle"></i> React Native</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2023 张明 - 本页面使用GitHub风格设计</p>
+        </div>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const avatarImg = document.getElementById('avatar-img');
-            const uploadTrigger = document.getElementById('upload-trigger');
-            const fileInput = document.getElementById('file-input');
-            const uploadModal = document.getElementById('upload-modal');
-            const modalFileInput = document.getElementById('modal-file-input');
-            const previewContainer = document.getElementById('preview-container');
-            const confirmUpload = document.getElementById('confirm-upload');
-            const cancelUpload = document.getElementById('cancel-upload');
-
-            let selectedFile = null;
-
-            // 打开上传模态框
-            uploadTrigger.addEventListener('click', function() {
-                uploadModal.style.display = 'flex';
-            });
-
-            // 关闭上传模态框
-            cancelUpload.addEventListener('click', function() {
-                uploadModal.style.display = 'none';
-                selectedFile = null;
-                previewContainer.innerHTML = '<p class="upload-text">预览区域</p>';
-            });
-
-            // 选择文件预览
-            modalFileInput.addEventListener('change', function(e) {
-                if (e.target.files && e.target.files[0]) {
-                    selectedFile = e.target.files[0];
-
-                    // 创建文件预览
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        previewContainer.innerHTML = '';
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        previewContainer.appendChild(img);
-                    };
-                    reader.readAsDataURL(selectedFile);
-                }
-            });
-
-            // 确认上传
-            confirmUpload.addEventListener('click', function() {
-                if (selectedFile) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        avatarImg.src = e.target.result;
-                        uploadModal.style.display = 'none';
-                        previewContainer.innerHTML = '<p class="upload-text">预览区域</p>';
-                        selectedFile = null;
-
-                        // 这里可以添加将图片上传到服务器的代码
-                        // uploadToServer(selectedFile);
-                    };
-                    reader.readAsDataURL(selectedFile);
-                } else {
-                    alert('请先选择一张图片');
-                }
-            });
-
-            // 点击模态框外部关闭
-            uploadModal.addEventListener('click', function(e) {
-                if (e.target === uploadModal) {
-                    uploadModal.style.display = 'none';
-                    selectedFile = null;
-                    previewContainer.innerHTML = '<p class="upload-text">预览区域</p>';
-                }
-            });
+        // 主题切换功能
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const themeText = themeToggle.querySelector('span');
+        
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeIcon.className = 'fas fa-sun';
+                themeText.textContent = '浅色模式';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+                themeText.textContent = '深色模式';
+            }
         });
+
+        // 生成贡献图
+        const activityGraph = document.querySelector('.activity-graph');
+        const levels = ['', 'low', 'medium', 'high', 'very-high'];
+        
+        for (let i = 0; i < 364; i++) {
+            const cell = document.createElement('div');
+            // 随机生成贡献级别，但偏向于较低级别以模拟真实情况
+            const level = Math.random() > 0.7 ? levels[Math.floor(Math.random() * 4) + 1] : '';
+            cell.className = `activity-cell ${level}`;
+            activityGraph.appendChild(cell);
+        }
     </script>
 </body>
 </html>
