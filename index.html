@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .about p {
+            margin-bottom: 15px;
+        }
+
+        .skills ul {
+            list-style-type: none;
+        }
+
+        .skills li {
+            margin-bottom: 15px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-level {
+            height: 100%;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            border-radius: 4px;
+        }
+
+        .contact ul {
+            list-style-type: none;
+        }
+
+        .contact li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .contact i {
+            width: 30px;
+            height: 30px;
+            background-color: #2575fc;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #2575fc;
+            color: white;
+            border-radius: 50%;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: #6a11cb;
+        }
+
+        .upload-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: #2575fc;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #2575fc;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1c65e0;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .preview-container {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 20px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .preview-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .upload-text {
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="avatar-container">
+                <div class="avatar" id="avatar">
+                    <img src="https://via.placeholder.com/150" alt="个人头像" id="avatar-img">
+                </div>
+                <button class="upload-btn" id="upload-trigger">+</button>
+                <input type="file" id="file-input" accept="image/*">
+            </div>
+            <h1>Juvenile</h1>
+            <p class="title">前端开发工程师 | UI设计师</p>
+        </header>
+
+        <div class="content">
+            <div class="card about">
+                <h2>关于我</h2>
+                <p>你好！我是一名充满热情的前端开发工程师，拥有5年Web开发经验。我热衷于创造美观、实用且用户友好的界面。</p>
+                <p>我毕业于安徽大学软件工程专业，曾在多家知名互联网公司工作，主导过多个大型项目的开发。</p>
+                <p>除了编程，我还喜欢摄影、旅行和阅读。我相信这些爱好帮助我保持创造力，并将新的灵感融入到我的工作中。</p>
+            </div>
+
+            <div class="card skills">
+                <h2>技能专长</h2>
+                <ul>
+                    <li>
+                        <div class="skill-name">
+                            <span>HTML/CSS</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 95%"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skill-name">
+                            <span>JavaScript</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skill-name">
+                            <span>React</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 85%"></div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="skill-name">
+                            <span>UI/UX设计</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 80%"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card contact">
+                <h2>联系方式</h2>
+                <ul>
+                    <li>
+                        <i>📧</i>
+                        <span>zJuvenile@example.com</span>
+                    </li>
+                    <li>
+                        <i>📱</i>
+                        <span>+86 100 0000 0000</span>
+                    </li>
+                    <li>
+                        <i>🏠</i>
+                        <span>安徽省合肥市-安徽大学</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>工作经历</h2>
+                <p><strong>高级前端工程师</strong> - 安徽某科技有限公司 (2019-至今)</p>
+                <p>负责公司核心产品的前端架构设计和开发，带领5人团队完成多个重要项目。</p>
+                <p><strong>前端开发工程师</strong> - 安徽某互联网公司 (2017-2019)</p>
+                <p>参与公司多个Web应用开发，优化用户体验，提升产品性能。</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Juvenile - 个人介绍页面</p>
+            <div class="social-links">
+                <a href="#">微</a>
+                <a href="#">博</a>
+                <a href="#">Git</a>
+                <a href="#">知</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 上传模态框 -->
+    <div class="upload-modal" id="upload-modal">
+        <div class="modal-content">
+            <h3>上传新头像</h3>
+            <div class="preview-container" id="preview-container">
+                <p class="upload-text">预览区域</p>
+            </div>
+            <input type="file" id="modal-file-input" accept="image/*">
+            <div class="modal-buttons">
+                <button class="btn btn-primary" id="confirm-upload">确认上传</button>
+                <button class="btn btn-secondary" id="cancel-upload">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const avatarImg = document.getElementById('avatar-img');
+            const uploadTrigger = document.getElementById('upload-trigger');
+            const fileInput = document.getElementById('file-input');
+            const uploadModal = document.getElementById('upload-modal');
+            const modalFileInput = document.getElementById('modal-file-input');
+            const previewContainer = document.getElementById('preview-container');
+            const confirmUpload = document.getElementById('confirm-upload');
+            const cancelUpload = document.getElementById('cancel-upload');
+
+            let selectedFile = null;
+
+            // 打开上传模态框
+            uploadTrigger.addEventListener('click', function() {
+                uploadModal.style.display = 'flex';
+            });
+
+            // 关闭上传模态框
+            cancelUpload.addEventListener('click', function() {
+                uploadModal.style.display = 'none';
+                selectedFile = null;
+                previewContainer.innerHTML = '<p class="upload-text">预览区域</p>';
+            });
+
+            // 选择文件预览
+            modalFileInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    selectedFile = e.target.files[0];
+
+                    // 创建文件预览
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewContainer.innerHTML = '';
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(selectedFile);
+                }
+            });
+
+            // 确认上传
+            confirmUpload.addEventListener('click', function() {
+                if (selectedFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        avatarImg.src = e.target.result;
+                        uploadModal.style.display = 'none';
+                        previewContainer.innerHTML = '<p class="upload-text">预览区域</p>';
+                        selectedFile = null;
+
+                        // 这里可以添加将图片上传到服务器的代码
+                        // uploadToServer(selectedFile);
+                    };
+                    reader.readAsDataURL(selectedFile);
+                } else {
+                    alert('请先选择一张图片');
+                }
+            });
+
+            // 点击模态框外部关闭
+            uploadModal.addEventListener('click', function(e) {
+                if (e.target === uploadModal) {
+                    uploadModal.style.display = 'none';
+                    selectedFile = null;
+                    previewContainer.innerHTML = '<p class="upload-text">预览区域</p>';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
